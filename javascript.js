@@ -43,6 +43,16 @@ function game() {
     let score = 0;
     for (let i = 0; i < 5; i++) {
         choice = prompt("Playing round " + (i + 1) +", please enter your choice (rock, paper, scissors)");
+        if (!(choice.toLowerCase() === "rock" || choice.toLowerCase() === "paper" || choice.toLowerCase() === "scissors")) {
+            let valid = false;
+            while (!valid) {
+                choice = prompt("Invalid option, please enter one of the follow: rock, paper, scissors");
+                if (choice.toLowerCase() === "rock" || choice.toLowerCase() === "paper" || choice.toLowerCase() === "scissors") {
+                    valid = true;
+                }
+
+            }
+        }
         let result = playRound(choice,getComputerChoice());
         console.log(result);
         if (result.charAt(0) === "Y") {
