@@ -4,65 +4,69 @@ function getComputerChoice() {
     return choices[choice];
 }
 
-function playRound(playerSelection, computerSelection) {
-    switch (playerSelection.toLowerCase()) {
+const buttons = document.querySelectorAll('button');
+
+buttons.forEach( button => button.addEventListener('click', playRound));
+
+let resultDisplay = document.querySelector(".results");
+
+let playerScore = 0;
+let compScore = 0;
+
+function playRound() {
+    let compChoice = getComputerChoice();
+    let message = "";
+    switch (this.textContent.toLowerCase()) {
         case "rock":
-            if (computerSelection === "rock") {
-                return "It's a tie! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+            if (compChoice === "rock") {
+                message = "It's a tie! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
             }
-            else if (computerSelection === "paper") {
-                return "You lose! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+            else if (compChoice === "paper") {
+                message = "You lose! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
+                compScore++;
             }
             else {
-                return "You win! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+                message = "You win! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
+                playerScore++;
             }
+            break;
         case "paper":
-            if (computerSelection === "rock") {
-                return "You win! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+            if (compChoice === "rock") {
+                message = "You win! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
+                playerScore++;
             }
-            else if (computerSelection === "paper") {
-                return "It's a tie! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+            else if (compChoice === "paper") {
+                message = "It's a tie! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
             }
             else {
-                return "You lose! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+                message = "You lose! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
+                compScore++;
             }
+            break;
         case "scissors":
-            if (computerSelection === "rock") {
-                return "You lose! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+            if (compChoice === "rock") {
+                message = "You lose! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
+                compScore++;
             }
-            else if (computerSelection === "paper") {
-                return "You win! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+            else if (compChoice === "paper") {
+                message = "You win! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
+                playerScore++;
             }
             else {
-                return "It's a tie! Your choice: " + playerSelection.toLowerCase() + " Computer choice: " + computerSelection;
+                message = "It's a tie! Your choice: " + this.textContent.toLowerCase() + " Computer choice: " + compChoice;
             }
+            break;
     }
-}
-function game() {
-    let choice;
-    let score = 0;
-    for (let i = 0; i < 5; i++) {
-        choice = prompt("Playing round " + (i + 1) +", please enter your choice (rock, paper, scissors)");
-        if (!(choice.toLowerCase() === "rock" || choice.toLowerCase() === "paper" || choice.toLowerCase() === "scissors")) {
-            let valid = false;
-            while (!valid) {
-                choice = prompt("Invalid option, please enter one of the follow: rock, paper, scissors");
-                if (choice.toLowerCase() === "rock" || choice.toLowerCase() === "paper" || choice.toLowerCase() === "scissors") {
-                    valid = true;
-                }
-
-            }
-        }
-        let result = playRound(choice,getComputerChoice());
-        console.log(result);
-        if (result.charAt(0) === "Y") {
-            if (result.charAt(4) === "w") {
-                score++;
-            }
-        }
+    if (playerScore === 5) {
+        resultDisplay.textContent = message + " Game over! You win!";
+        buttons.forEach(button => button.removeEventListener('click', playRound));
     }
-
-    console.log("Thank you for playing! You played 5 rounds of Rock-Paper-Scissors, and won " + score + " times");
+    else if (compScore === 5) {
+        resultDisplay.textContent = message + " Game over! Computer wins!";
+        buttons.forEach(button => button.removeEventListener('click', playRound));
+    }
+    else {
+        resultDisplay.textContent = message + ". Your score: " + playerScore + " Computer score: " + compScore;
+    }
+    
 }
-
-game();
